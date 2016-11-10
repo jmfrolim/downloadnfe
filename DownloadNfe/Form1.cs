@@ -16,6 +16,7 @@ namespace DownloadNfe
         public FrmPrincipal()
         {
             InitializeComponent();
+             string folder = null;
         }
 
         private void btnManifesta_Click(object sender, EventArgs e)
@@ -28,7 +29,8 @@ namespace DownloadNfe
 
             var notas = new[]
             {
-                "21161101633840001398550010000030021000030025"
+                //"21161101633840001398550010000030021000030025"
+                "21161192660604013241550000000884781656882571"
                 //, "Ponha a chave de 44 dígitos da NFe recebida pela sua empresa"
             }; // este array não deve passar de 20 elementos, máximo permitido por lote de manifestação
 
@@ -89,8 +91,9 @@ namespace DownloadNfe
             NFe_Cab.versaoDados = "1.00";
             var resp = NFe_Rec.nfeRecepcaoEvento(NFe_Cab, xml);
 
-            var fileResp = "c:\\p\\testexml" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + "-tempResp.xml";
-            var fileReq = "c:\\p\\testexml" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + "-tempRequ.xml";
+            var fileResp = "c:\\p\\testexml\\" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + "-tempResp.xml";
+            var fileReq = "c:\\p\\testexml\\" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + "-tempRequ.xml";
+            var folder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             File.WriteAllText(fileReq, xml.OuterXml);
             File.WriteAllText(fileResp, resp.OuterXml);
             Process.Start(fileReq);
@@ -104,10 +107,10 @@ namespace DownloadNfe
             //
             var notas = new string[]
             {
-                "21161101633840001398550010000030021000030025"
+                "21161192660604013241550000000884781656882571"
                 //,"Ponha a chave de 44 dígitos da NFe recebida pela sua empresa"
             }; // este array não deve passar de 10 elementos, máximo permitido por lote de download da NFe
-
+            
             var sbXml = new StringBuilder();
             sbXml.Append (
                             @"<?xml version=""1.0"" encoding=""UTF-8""?>
@@ -135,12 +138,19 @@ namespace DownloadNfe
             NFe_Sc.ClientCredentials.ClientCertificate.SetCertificate(StoreLocation.CurrentUser, StoreName.My, X509FindType.FindBySubjectName, "PENINSULA NORTE FERTILIZANTES S A:14267717000109");
             var resp = NFe_Sc.nfeDownloadNF(NFe_Cab, xml);
 
-            var fileResp = "c:\\p\\testexml" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + "-tempResp.xml";
-            var fileReq = "c:\\p\\testexml" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + "-tempRequ.xml";
+            //var folder = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+
+            //var fileResp = "c:\\p\\testexml\\" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + "-tempResp.xml";
+            var fileResp = "c:\\p\\testexml\\" +notas[0] + ".xml";
+
+            var fileReq = "c:\\p\\testexml\\" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss") + ".xml";
+            //var folder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
             File.WriteAllText(fileReq, xml.OuterXml);
             File.WriteAllText(fileResp, resp.OuterXml);
-            System.Diagnostics.Process.Start(fileReq);
+            /*System.Diagnostics.Process.Start(fileReq);
             System.Diagnostics.Process.Start(fileResp);
+             */
         }
     }
 }
